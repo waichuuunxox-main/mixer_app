@@ -36,6 +36,26 @@ class MacosTahoeTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
+      tabBarTheme: TabBarThemeData(
+        labelColor: colorScheme.primary,
+        unselectedLabelColor: mutedText,
+        indicator: UnderlineTabIndicator(borderSide: BorderSide(width: 2.5, color: colorScheme.primary)),
+        labelStyle: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      dialogTheme: DialogThemeData(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        titleTextStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+        contentTextStyle: TextStyle(color: mutedText),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: colorScheme.primary,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(foregroundColor: colorScheme.primary),
+      ),
       appBarTheme: AppBarTheme(
           backgroundColor: primary, // use solid primary color for app bar
         foregroundColor: Colors.white,
