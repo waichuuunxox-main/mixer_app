@@ -26,7 +26,7 @@ class MatchCard extends StatelessWidget {
                     style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700, color: theme.colorScheme.primary),
                   ),
                   const SizedBox(height: 6),
-                  Text('${match.date.toLocal()}'.split(' ')[0], style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onBackground)),
+                  Text('${match.date.toLocal()}'.split(' ')[0], style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurface)),
                 ],
               ),
             ),

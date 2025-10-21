@@ -25,8 +25,6 @@ class MacosTahoeTheme {
         onError: Colors.white,
         surface: surface,
         onSurface: mutedText,
-        background: surface, // maintained for compatibility
-        onBackground: mutedText,
       );
 
     return base.copyWith(
