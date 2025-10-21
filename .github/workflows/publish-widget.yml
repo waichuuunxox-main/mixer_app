@@ -1,0 +1,51 @@
+name: Publish Widget Artifact
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+      release_name:
+        description: 'Release name'
+        required: false
+        default: 'Widget Example Release'
+      prerelease:
+        description: 'Make this release a prerelease?'
+        required: false
+        default: 'false'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare widget artifact
+        run: |
+          chmod +x scripts/package_widget.sh || true
+          ./scripts/package_widget.sh || true
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          release_name: ${{ github.event.inputs.release_name }}
+          body: 'Auto-published widget example zip'
+          draft: false
+          prerelease: ${{ github.event.inputs.prerelease }}
+
+      - name: Upload widget artifact to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: artifacts/widget_example.zip
+          asset_name: widget_example.zip
+          asset_content_type: application/zip
