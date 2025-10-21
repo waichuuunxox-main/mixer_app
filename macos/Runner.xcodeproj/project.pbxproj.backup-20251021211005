@@ -46,13 +46,6 @@
 			remoteGlobalIDString = 33CC111A2044C6BA0003C045;
 			remoteInfo = FLX;
 		};
-		4F4F4F4F4F4F4F4F4F4F4F4F /* PBXContainerItemProxy for mixzer_widget */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 33CC10E52044A3C60003C045 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5E5E5E5E5E5E5E5E5E5E5E5E;
-			remoteInfo = mixzer_widget;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -95,7 +88,6 @@
 		C7A5E133CF7CB35CE850B0E3 /* Pods_RunnerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunnerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61995A416C18BDD015061C9 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		FF75F1CD1B41FBC9874F8B42 /* Pods-RunnerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release.xcconfig"; sourceTree = "<group>"; };
-		2A2B2C2D2E2F0123456789CC /* mixzer_widget.appex */ = {isa = PBXFileReference; includeInIndex = 0; explicitFileType = wrapper.app-extension; path = mixzer_widget.appex; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,7 +146,6 @@
 			children = (
 				33CC10ED2044A3C60003C045 /* mixzer_app.app */,
 				331C80D5294CF71000263BE5 /* RunnerTests.xctest */,
-				2A2B2C2D2E2F0123456789CC /* mixzer_widget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -260,23 +251,6 @@
 			productReference = 33CC10ED2044A3C60003C045 /* mixzer_app.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5E5E5E5E5E5E5E5E5E5E5E5E /* mixzer_widget */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8C8C8C8C8C8C8C8C8C8C8C8C /* Build configuration list for mixzer_widget */;
-			buildPhases = (
-				3C3C3C3C3C3C3C3C3C3C3C3C /* mixzer_widget Sources */,
-				2B2B2B2B2B2B2B2B2B2B2B2B /* mixzer_widget Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4D4D4D4D4D4D4D4D4D4D4D4D /* PBXTargetDependency for mixzer_widget */,
-			);
-			name = mixzer_widget;
-			productName = mixzer_widget;
-			productReference = 2A2B2C2D2E2F0123456789CC /* mixzer_widget.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -324,20 +298,12 @@
 				33CC10EC2044A3C60003C045 /* Runner */,
 				331C80D4294CF70F00263BE5 /* RunnerTests */,
 				33CC111A2044C6BA0003C045 /* Flutter Assemble */,
-				5E5E5E5E5E5E5E5E5E5E5E5E /* mixzer_widget */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		331C80D3294CF70F00263BE5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2B2B2B2B2B2B2B2B2B2B2B2B /* mixzer_widget Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -466,13 +432,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3C3C3C3C3C3C3C3C3C3C3C3C /* mixzer_widget Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		33CC10E92044A3C60003C045 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -496,11 +455,6 @@
 			target = 33CC111A2044C6BA0003C045 /* Flutter Assemble */;
 			targetProxy = 33CC111F2044C79F0003C045 /* PBXContainerItemProxy */;
 		};
-		4D4D4D4D4D4D4D4D4D4D4D4D /* PBXTargetDependency for mixzer_widget */ = {
-			isa = PBXTargetDependency;
-			target = 5E5E5E5E5E5E5E5E5E5E5E5E /* mixzer_widget */;
-			targetProxy = 4F4F4F4F4F4F4F4F4F4F4F4F /* mixzer_widget proxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -511,15 +465,6 @@
 			);
 			name = MainMenu.xib;
 			path = Runner;
-			sourceTree = "<group>";
-		};
-		505050505050505050505050 /* mixzer_widget Info.plist */ = {
-			isa = PBXVariantGroup;
-			children = (
-				505050505050505050505051 /* Info.plist */,
-			);
-			name = Info.plist;
-			path = mixzer_widget/Info.plist;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -796,28 +741,6 @@
 			};
 			name = Release;
 		};
-		6A6A6A6A6A6A6A6A6A6A6A6A /* mixzer_widget Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 33E5194F232828860026EE4D /* AppInfo.xcconfig */;
-			buildSettings = {
-				INFOPLIST_FILE = mixzer_widget/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.waichuuun.mixzer.widget;
-				PRODUCT_NAME = mixzer_widget;
-				DEVELOPMENT_TEAM = M8Z2L5XR22;
-			};
-			name = Debug;
-		};
-		7B7B7B7B7B7B7B7B7B7B7B7B /* mixzer_widget Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 33E5194F232828860026EE4D /* AppInfo.xcconfig */;
-			buildSettings = {
-				INFOPLIST_FILE = mixzer_widget/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.waichuuun.mixzer.widget;
-				PRODUCT_NAME = mixzer_widget;
-				DEVELOPMENT_TEAM = M8Z2L5XR22;
-			};
-			name = Release;
-		};
 		33CC111C2044C6BA0003C045 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -873,15 +796,6 @@
 				33CC111C2044C6BA0003C045 /* Debug */,
 				33CC111D2044C6BA0003C045 /* Release */,
 				338D0CEB231458BD00FA5F75 /* Profile */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8C8C8C8C8C8C8C8C8C8C8C8C /* Build configuration list for mixzer_widget */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6A6A6A6A6A6A6A6A6A6A6A6A /* mixzer_widget Debug */,
-				7B7B7B7B7B7B7B7B7B7B7B7B /* mixzer_widget Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

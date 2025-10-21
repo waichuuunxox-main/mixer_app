@@ -1,0 +1,154 @@
+*** Begin Patch
+*** Update File: macos/Runner.xcodeproj/project.pbxproj
+@@
+ /* Begin PBXFileReference section */
+@@
+ 		FF75F1CD1B41FBC9874F8B42 /* Pods-RunnerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release.xcconfig"; sourceTree = "<group>"; };
++		A1B2C3D42123456789ABCDEF /* MixzerWidget.appex */ = {isa = PBXFileReference; lastKnownFileType = wrapper.app-extension; includeInIndex = 0; path = "MixzerWidget.appex"; sourceTree = "<group>"; };
+*** End Patch
+
+
+*** Begin Patch
+*** Update File: macos/Runner.xcodeproj/project.pbxproj
+@@
+ /* Begin PBXNativeTarget section */
+@@
+ 		33CC10EC2044A3C60003C045 /* Runner */ = {
+@@
+ 		};
++		B1B2C3D42123456789ABCDF0 /* MixzerWidget */ = {
++			isa = PBXNativeTarget;
++			buildConfigurationList = E1B2C3D42123456789ABCDF3 /* Build configuration list for PBXNativeTarget "MixzerWidget" */;
++			buildPhases = (
++				C1B2C3D42123456789ABCDF1 /* Sources */,
++				D1B2C3D42123456789ABCDF2 /* Resources */,
++			);
++			dependencies = (
++			);
++			name = "MixzerWidget";
++			productName = MixzerWidget;
++			productReference = A1B2C3D42123456789ABCDEF /* MixzerWidget.appex */;
++			productType = "com.apple.product-type.app-extension";
++		};
+*** End Patch
+
+
+*** Begin Patch
+*** Update File: macos/Runner.xcodeproj/project.pbxproj
+@@
+ /* Begin PBXSourcesBuildPhase section */
+@@
+ 		33CC10E92044A3C60003C045 /* Sources */ = {
+@@
+ 		};
++		C1B2C3D42123456789ABCDF1 /* Sources */ = {
++			isa = PBXSourcesBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++		};
+*** End Patch
+
+
+*** Begin Patch
+*** Update File: macos/Runner.xcodeproj/project.pbxproj
+@@
+ /* Begin PBXResourcesBuildPhase section */
+@@
+ 		33CC10EB2044A3C60003C045 /* Resources */ = {
+@@
+ 		};
++		D1B2C3D42123456789ABCDF2 /* Resources */ = {
++			isa = PBXResourcesBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++		};
+*** End Patch
+
+
+*** Begin Patch
+*** Update File: macos/Runner.xcodeproj/project.pbxproj
+@@
+ /* Begin XCBuildConfiguration section */
+@@
+ 		33CC10FC2044A3C60003C045 /* Debug */ = {
+@@
+ 		};
++		F1B2C3D42123456789ABCDF4 /* MixzerWidget Debug */ = {
++			isa = XCBuildConfiguration;
++			buildSettings = {
++				PRODUCT_BUNDLE_IDENTIFIER = com.example.mixzerApp.MixzerWidget;
++				INFOPLIST_FILE = MixzerWidget/Info.plist;
++				DEVELOPMENT_TEAM = M8Z2L5XR22;
++				CODE_SIGN_STYLE = Automatic;
++			};
++			name = Debug;
++		};
++		01B2C3D42123456789ABCDF5 /* MixzerWidget Release */ = {
++			isa = XCBuildConfiguration;
++			buildSettings = {
++				PRODUCT_BUNDLE_IDENTIFIER = com.example.mixzerApp.MixzerWidget;
++				INFOPLIST_FILE = MixzerWidget/Info.plist;
++				DEVELOPMENT_TEAM = M8Z2L5XR22;
++				CODE_SIGN_STYLE = Automatic;
++			};
++			name = Release;
++		};
+*** End Patch
+
+
+*** Begin Patch
+*** Update File: macos/Runner.xcodeproj/project.pbxproj
+@@
+ /* Begin XCConfigurationList section */
+@@
+ 		33CC10FB2044A3C60003C045 /* Build configuration list for PBXNativeTarget "Runner" */ = {
+@@
+ 		};
++		E1B2C3D42123456789ABCDF3 /* Build configuration list for PBXNativeTarget "MixzerWidget" */ = {
++			isa = XCConfigurationList;
++			buildConfigurations = (
++				F1B2C3D42123456789ABCDF4 /* Debug */,
++				01B2C3D42123456789ABCDF5 /* Release */,
++			);
++			defaultConfigurationIsVisible = 0;
++			defaultConfigurationName = Release;
++		};
+*** End Patch
+
+
+*** Begin Patch
+*** Update File: macos/Runner.xcodeproj/project.pbxproj
+@@
+ 		33CC10E52044A3C60003C045 /* Project object */ = {
+@@
+-				targets = (
+-					33CC10EC2044A3C60003C045 /* Runner */,
+-					331C80D4294CF70F00263BE5 /* RunnerTests */,
+-					33CC111A2044C6BA0003C045 /* Flutter Assemble */,
+-				);
++				targets = (
++					33CC10EC2044A3C60003C045 /* Runner */,
++					331C80D4294CF70F00263BE5 /* RunnerTests */,
++					33CC111A2044C6BA0003C045 /* Flutter Assemble */,
++					B1B2C3D42123456789ABCDF0 /* MixzerWidget */,
++				);
+*** End Patch
+
+
+*** Begin Patch
+*** Update File: macos/Runner.xcodeproj/project.pbxproj
+@@
+ 		33CC10EE2044A3C60003C045 /* Products */ = {
+@@
+ 				33CC10ED2044A3C60003C045 /* mixzer_app.app */,
+ 				331C80D5294CF71000263BE5 /* RunnerTests.xctest */,
+ 			);
+ 			name = Products;
+ 			sourceTree = "<group>";
+ 		};
++			A1B2C3D42123456789ABCDEF /* MixzerWidget.appex */,
+*** End Patch

@@ -79,3 +79,65 @@ WidgetKit 在 macOS 與 iOS 的行為類似；如果你要在 macOS 上使用 Wi
 ---
 
 若需要，我可以把常見的 Debug 指令範例與一個 `scripts/build_macos_release.sh` 腳本加入 repo（會包含 Xcode archive 與導出步驟的提示）。
+
+## Widget sync verification & local fonts
+
+### Verify Flutter → Native write (App Group)
+
+After enabling App Group in Xcode and running the app on macOS, trigger the in-app "Sync" (Widget Preview or Home Page). Then verify:
+
+```bash
+ls -la ~/Library/"Group Containers"/group.com.waichuuun.mixzer
+cat ~/Library/"Group Containers"/group.com.waichuuun.mixzer/mixzer_widget_summary.json
+```
+
+If the JSON exists and contains a `nextMatch` and `timestamp`, the native `writeSummary` handler successfully wrote shared data for WidgetKit.
+
+### Embed local fonts (NotoSans example)
+
+This repo includes NotoSans Regular and Bold in `assets/fonts/` and registers them in `pubspec.yaml` as `NotoSans`. The app's `ThemeData` has been updated to use `fontFamily: 'NotoSans'` so the app no longer relies on runtime font downloads.
+
+To update fonts or add more weights:
+
+1. Add the TTF files into `assets/fonts/`.
+2. Add entries under `flutter:
+  fonts:` in `pubspec.yaml`.
+3. Run `flutter pub get` and rebuild.
+
+
+
+## 自動化 widget 工作流程（範例腳本）
+
+本專案內建一組簡單腳本，可幫助你把 repo 中的 Widget 範例複製到你的 Xcode widget target，並自動替換 App Group identifier。檔案位置：`scripts/`。
+
+- `scripts/package_widget.sh`：把 `ios/WidgetExample` 打包為 `artifacts/widget_example.zip`。
+- `scripts/install_widget_to_xcode.sh`：將 `ios/WidgetExample` 的檔案複製到指定的 Xcode widget target 資料夾，並替換 Swift 檔案內的 App Group placeholder（支援 `group.com.example.mixzer` 或 `APP_GROUP_PLACEHOLDER`）。
+
+範例使用步驟：
+
+1. 打包（可選）：
+
+```bash
+chmod +x scripts/package_widget.sh
+./scripts/package_widget.sh
+```
+
+2. 安裝到你的 Xcode widget target（會替換 App Group）：
+
+```bash
+chmod +x scripts/install_widget_to_xcode.sh
+./scripts/install_widget_to_xcode.sh group.com.yourcompany.mixzer /path/to/YourXcodeProject/Widgets/MixzerWidget --overwrite
+```
+
+3. 開啟 Xcode：
+  - 在主應用與 widget 目標的 Signing & Capabilities 中啟用相同的 App Group（例如 `group.com.yourcompany.mixzer`）。
+  - 設定 widget target 的 bundle identifier 與簽名 Team。
+
+4. 在 Xcode 內 build 一次以讓變更生效，然後在 macOS 上測試 widget（或使用 Widget Debugging 工具）。
+
+注意：腳本只會複製檔案與替換檔案內的 App Group 字串；Xcode 專案內的 target 設定（如 bundle id、簽名）需手動在 Xcode 內完成。
+
+## 參考變更摘要
+
+變更摘要已加入 `docs/changes/auto_widget_workflow.md`，說明本次自動化腳本與測試的新增內容。
+

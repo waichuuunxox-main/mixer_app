@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mixzer_app/pages/home_page.dart';
 import 'package:mixzer_app/services/cache_service.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,9 +20,13 @@ class MyApp extends StatelessWidget {
     final base = ThemeData(
       colorScheme: ColorScheme.fromSeed(seedColor: seed, brightness: Brightness.light),
       useMaterial3: true,
+      fontFamily: 'NotoSans',
     );
 
-    final textTheme = GoogleFonts.notoSansTextTheme(base.textTheme).apply(
+    // Use system fonts to avoid runtime network font fetches which can fail in
+    // restricted environments. This avoids google_fonts package attempting
+    // background downloads that may throw async exceptions.
+    final textTheme = base.textTheme.apply(
       bodyColor: Colors.grey[900],
       displayColor: Colors.grey[900],
     );
@@ -38,11 +41,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: seed,
           foregroundColor: Colors.white,
           elevation: 2,
-          titleTextStyle: GoogleFonts.notoSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
+          titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white),
         ),
         // cardTheme removed for SDK compatibility; rely on Card widgets' local styling
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -53,7 +52,7 @@ class MyApp extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             elevation: 1,
-            textStyle: GoogleFonts.notoSans(fontWeight: FontWeight.w600),
+            textStyle: const TextStyle(fontWeight: FontWeight.w600),
           ),
         ),
         inputDecorationTheme: const InputDecorationTheme(
