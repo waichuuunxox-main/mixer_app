@@ -10,7 +10,8 @@ class WidgetPreviewPage extends StatefulWidget {
 }
 
 class _WidgetPreviewPageState extends State<WidgetPreviewPage> {
-  String _nextMatch = 'Team A vs Team B';
+  final TextEditingController _controller = TextEditingController(text: 'Team A vs Team B');
+  String get _nextMatch => _controller.text;
 
   void _writeSummary() async {
     final summary = {'nextMatch': _nextMatch, 'timestamp': DateTime.now().toIso8601String()};
@@ -21,6 +22,7 @@ class _WidgetPreviewPageState extends State<WidgetPreviewPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(title: const Text('Widget Preview')),
       body: Padding(
@@ -28,14 +30,13 @@ class _WidgetPreviewPageState extends State<WidgetPreviewPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('Preview how the widget will look and sync sample data to native widget storage.'),
+            Text('Preview how the widget will look and sync sample data to native widget storage.', style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurface)),
             const SizedBox(height: 12),
             WidgetPreviewCard(nextMatch: _nextMatch, timestamp: DateTime.now()),
             const SizedBox(height: 12),
             TextField(
               decoration: const InputDecoration(labelText: 'Next match text'),
-              controller: TextEditingController(text: _nextMatch),
-              onChanged: (v) => _nextMatch = v,
+              controller: _controller,
             ),
             const SizedBox(height: 12),
             Row(
@@ -45,7 +46,7 @@ class _WidgetPreviewPageState extends State<WidgetPreviewPage> {
                 OutlinedButton(
                   onPressed: () {
                     setState(() {
-                      _nextMatch = 'Team X vs Team Y';
+                      _controller.text = 'Team X vs Team Y';
                     });
                   },
                   child: const Text('Use sample'),

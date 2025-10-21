@@ -8,17 +8,19 @@ class WidgetPreviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Card(
+      elevation: 4,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(14.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Next match', style: Theme.of(context).textTheme.titleMedium),
+            Text('Next match', style: theme.textTheme.titleMedium?.copyWith(color: theme.colorScheme.primary, fontWeight: FontWeight.w700)),
             const SizedBox(height: 8),
-            Text(nextMatch, style: Theme.of(context).textTheme.headlineSmall),
+            Text(nextMatch, style: theme.textTheme.headlineSmall?.copyWith(color: theme.colorScheme.onSurface)),
             const SizedBox(height: 8),
-            Text('Updated: ${timestamp.toLocal().toIso8601String()}', style: Theme.of(context).textTheme.bodySmall),
+            Text('Updated: ${timestamp.toLocal().toIso8601String()}', style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurface)),
           ],
         ),
       ),

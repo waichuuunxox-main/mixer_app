@@ -10,11 +10,11 @@ class TodayCard extends StatelessWidget {
     final theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.all(12),
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(14),
-  boxShadow: [BoxShadow(color: Color.fromRGBO(0,0,0,0.05), blurRadius: 8, offset: const Offset(0,4))],
+        boxShadow: [BoxShadow(color: theme.shadowColor.withAlpha(12), blurRadius: 10, offset: const Offset(0,4))],
       ),
       child: Row(
         children: [
@@ -22,13 +22,13 @@ class TodayCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
+                Text(title, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700, color: theme.colorScheme.primary)),
                 const SizedBox(height: 6),
-                Text(subtitle, style: theme.textTheme.bodySmall),
+                Text(subtitle, style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurface)),
               ],
             ),
           ),
-          const Icon(Icons.sports_soccer, size: 36, color: Colors.orangeAccent),
+          Icon(Icons.sports_soccer, size: 36, color: theme.colorScheme.secondary),
         ],
       ),
     );
