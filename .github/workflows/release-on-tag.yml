@@ -17,24 +17,43 @@ jobs:
           chmod +x scripts/package_widget.sh || true
           ./scripts/package_widget.sh || true
 
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Ensure GitHub Release exists (create or reuse)
+        id: ensure_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref_name }}
-          release_name: ${{ github.ref_name }}
-          body: 'Auto-published widget example zip via tag push'
-          draft: false
-          prerelease: false
+        run: |
+          set -euo pipefail
+          TAG=${{ github.ref_name }}
+          OWNER=${GITHUB_REPOSITORY%%/*}
+          REPO=${GITHUB_REPOSITORY##*/}
+
+          echo "Checking for existing release for tag=$TAG"
+          resp=$(curl -s -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$OWNER/$REPO/releases/tags/$TAG") || true
+
+          if echo "$resp" | jq -e '.id' > /dev/null 2>&1; then
+            upload_url=$(echo "$resp" | jq -r .upload_url | sed -e 's/{?name,label}//')
+            echo "Found existing release, upload_url=$upload_url"
+          else
+            echo "No existing release, creating one"
+            payload=$(jq -n --arg tag "$TAG" --arg name "$TAG" --arg body "Auto-published widget example zip via tag push" --argjson draft false --argjson prerelease false '{ tag_name: $tag, name: $name, body: $body, draft: $draft, prerelease: $prerelease }')
+            resp=$(curl -s -X POST -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" -d "$payload" "https://api.github.com/repos/$OWNER/$REPO/releases")
+            upload_url=$(echo "$resp" | jq -r .upload_url | sed -e 's/{?name,label}//')
+            echo "Created release, upload_url=$upload_url"
+          fi
+
+          if [ -z "$upload_url" ] || [ "$upload_url" = "null" ]; then
+            echo "Failed to determine upload_url. Response: $resp"
+            exit 2
+          fi
+
+          echo "upload_url=$upload_url" >> "$GITHUB_OUTPUT"
 
       - name: Upload widget artifact to release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.ensure_release.outputs.upload_url }}
           asset_path: artifacts/widget_example.zip
           asset_name: widget_example.zip
           asset_content_type: application/zip

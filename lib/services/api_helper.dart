@@ -1,8 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'api_service.dart';
 import 'mock_service.dart';
+import 'remote_service.dart';
 
-/// Helper to provide an ApiService when an API key is configured,
+/// Helper to provide an ApiService (RemoteService) when an API key is configured,
 /// otherwise fall back to MockService.
 class ApiHelper {
   static const _apiKeyPref = 'mixzer_api_key';
@@ -19,7 +20,7 @@ class ApiHelper {
     return prefs.getString(_apiKeyPref) ?? '';
   }
 
-  static Future<Object> service() async {
+  static Future<RemoteService> service() async {
     final key = await readApiKey();
     if (key.isNotEmpty) {
       return ApiService(apiKey: key);

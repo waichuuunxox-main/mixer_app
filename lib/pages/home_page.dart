@@ -5,6 +5,7 @@ import 'package:mixzer_app/services/data_repository.dart';
 import 'package:mixzer_app/widgets/match_card.dart';
 import 'package:mixzer_app/widgets/scorer_card.dart';
 import 'package:mixzer_app/services/widget_sync.dart';
+import 'package:mixzer_app/pages/widget_preview.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -111,6 +112,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               }
             },
           ),
+            IconButton(
+              icon: const Icon(Icons.remove_red_eye),
+              tooltip: 'Widget preview',
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => const WidgetPreviewPage()));
+              },
+            ),
               IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () async {

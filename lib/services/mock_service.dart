@@ -1,8 +1,10 @@
 import 'package:mixzer_app/models/match.dart';
 import 'package:mixzer_app/models/player.dart';
+import 'remote_service.dart';
 
-class MockService {
-  Future<List<Match>> fetchMatches() async {
+class MockService implements RemoteService {
+  @override
+  Future<List<Match>> fetchMatches({bool useCache = true}) async {
     await Future.delayed(const Duration(milliseconds: 200));
     return [
       Match(id: '1', homeTeam: 'Team A', awayTeam: 'Team B', date: DateTime.now().add(const Duration(days: 1))),
@@ -11,7 +13,8 @@ class MockService {
     ];
   }
 
-  Future<List<Player>> fetchTopScorers() async {
+  @override
+  Future<List<Player>> fetchTopScorers({bool useCache = true}) async {
     await Future.delayed(const Duration(milliseconds: 150));
     return [
       Player(id: 'p1', name: 'John Doe', team: 'Team A', goals: 12),
