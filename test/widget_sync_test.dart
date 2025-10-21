@@ -7,13 +7,13 @@ import 'package:mixzer_app/services/widget_sync.dart';
 void main() {
   const channel = MethodChannel('mixzer_app/widget_sync');
 
-  TestWidgetsFlutterBinding.ensureInitialized();
+  final binding = TestWidgetsFlutterBinding.ensureInitialized();
 
   group('WidgetSync', () {
     final log = <MethodCall>[];
 
     setUp(() {
-      channel.setMockMethodCallHandler((MethodCall methodCall) async {
+      binding.defaultBinaryMessenger.setMockMethodCallHandler(channel, (MethodCall methodCall) async {
         log.add(methodCall);
         return null;
       });
@@ -21,7 +21,7 @@ void main() {
     });
 
     tearDown(() {
-      channel.setMockMethodCallHandler(null);
+      binding.defaultBinaryMessenger.setMockMethodCallHandler(channel, null);
     });
 
     test('writeSummary calls native writeSummary with json payload', () async {
