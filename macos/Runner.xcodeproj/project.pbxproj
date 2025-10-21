@@ -29,6 +29,9 @@
 		33CC11132044BFA00003C045 /* MainFlutterWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC11122044BFA00003C045 /* MainFlutterWindow.swift */; };
 		376B92C08BFC5AEBB9731209 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 319AE0A831DE90880E892CA7 /* Pods_Runner.framework */; };
 		5C8E7D62390211CA322198F5 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A5E133CF7CB35CE850B0E3 /* Pods_RunnerTests.framework */; };
+		B1B1B1B1B1B1B1B1B1B1B1B1 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9A9A9A9A9A9A9A9A9A9A9 /* Widget.swift */; };
+		C2C2C2C2C2C2C2C2C2C2C2C2 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 505050505050505051 /* Info.plist */; };
+		C3C3C3C3C3C3C3C3C3C3C3C3 /* mixzer_widget.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6C6C6C6C6C6C6C6C6C6C6C6C /* mixzer_widget.entitlements */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +99,9 @@
 		E61995A416C18BDD015061C9 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		FF75F1CD1B41FBC9874F8B42 /* Pods-RunnerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release.xcconfig"; sourceTree = "<group>"; };
 		2A2B2C2D2E2F0123456789CC /* mixzer_widget.appex */ = {isa = PBXFileReference; includeInIndex = 0; explicitFileType = wrapper.app-extension; path = mixzer_widget.appex; sourceTree = "<group>"; };
+		505050505050505051 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = mixzer_widget/Info.plist; sourceTree = "<group>"; };
+		9A9A9A9A9A9A9A9A9A9A9A9A /* Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Widget.swift; path = mixzer_widget/Widget.swift; sourceTree = "<group>"; };
+		6C6C6C6C6C6C6C6C6C6C6C6C /* mixzer_widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mixzer_widget.entitlements; path = mixzer_widget/mixzer_widget.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -341,6 +347,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2C2C2C2C2C2C2C2C2C2C2C2 /* Info.plist in Resources */,
+				C3C3C3C3C3C3C3C3C3C3C3C3 /* mixzer_widget.entitlements in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,6 +478,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1B1B1B1B1B1B1B1B1B1B1B1 /* Widget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -533,7 +542,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.mixzerApp.RunnerTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.waichuuun.mixzer.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mixzer_app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/mixzer_app";
@@ -548,7 +557,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.mixzerApp.RunnerTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.waichuuun.mixzer.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mixzer_app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/mixzer_app";
@@ -563,7 +572,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.mixzerApp.RunnerTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.waichuuun.mixzer.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mixzer_app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/mixzer_app";
