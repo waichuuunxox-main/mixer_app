@@ -50,3 +50,22 @@ Automates the repetitive steps of adding a WidgetKit extension to the macOS targ
 ---
 
 *Auto-generated PR draft file.*
+
+## UI updates (macOS Tahoe 26)
+
+This branch also includes an initial macOS Tahoe 26 visual refresh for the Flutter app UI. Main changes:
+
+- Global theme: `lib/theme/macos_tahoe_theme.dart` (colors, rounded cards, soft shadows, button and dialog styles)
+- Updated components:
+  - `lib/widgets/match_card.dart`
+  - `lib/widgets/today_card.dart`
+  - `lib/widgets/scorer_card.dart`
+  - `lib/widgets/widget_preview_card.dart`
+  - `lib/pages/widget_preview.dart`
+
+Acceptance criteria for UI changes:
+- `flutter analyze` shows no issues.
+- Home page lists, fixtures and scorers render with updated cards and Tahoe colors.
+- Widget preview page shows styled preview card and Write summary action works (writes JSON to App Group container).
+
+If UI changes are large or need iterative review, consider merging the automation part first and follow up with dedicated UI PRs.

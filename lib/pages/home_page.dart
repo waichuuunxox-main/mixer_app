@@ -89,6 +89,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         actions: [
           IconButton(
             icon: const Icon(Icons.sync),
+            tooltip: 'Sync widget',
             onPressed: () async {
               // Ensure context is captured before any await to avoid using BuildContext across async gaps
               if (!mounted) return;
@@ -106,19 +107,19 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
               try {
                 await WidgetSync.writeSummary(summary);
-                messenger.showSnackBar(const SnackBar(content: Text('Widget summary written')));
+                messenger.showSnackBar(SnackBar(content: const Text('Widget summary written'), backgroundColor: Theme.of(context).colorScheme.primary));
               } catch (e) {
-                messenger.showSnackBar(SnackBar(content: Text('Failed to write widget summary: $e')));
+                messenger.showSnackBar(SnackBar(content: Text('Failed to write widget summary: $e'), backgroundColor: Colors.red.shade700));
               }
             },
           ),
-            IconButton(
-              icon: const Icon(Icons.remove_red_eye),
-              tooltip: 'Widget preview',
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (_) => const WidgetPreviewPage()));
-              },
-            ),
+                IconButton(
+                  icon: const Icon(Icons.remove_red_eye),
+                  tooltip: 'Widget preview',
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const WidgetPreviewPage()));
+                  },
+                ),
               IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () async {
