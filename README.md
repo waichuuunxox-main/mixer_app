@@ -23,6 +23,25 @@ flutter test
 flutter run
 ```
 
+
+### macOS
+
+To run the macOS app locally you need Xcode and Flutter installed. A helper script is provided:
+
+```bash
+chmod +x scripts/run_macos.sh
+./scripts/run_macos.sh
+```
+
+If you don't have a macOS dev environment you can use the provided GitHub Actions workflow to build a macOS release artifact:
+
+1. Push your changes to GitHub.  
+2. In GitHub go to Actions → Build macOS → Run workflow.  
+3. After the workflow completes download the `mixzer_macos_release.zip` artifact.
+
+For full macOS development instructions (environment setup, signing, debugging, and troubleshooting), see `docs/macos_development.md`.
+
+
 ## Push to your GitHub repository
 
 If you want to publish this project to your GitHub repository (for example `https://github.com/waichuuunxox-main/mixer_app.git`), run:
