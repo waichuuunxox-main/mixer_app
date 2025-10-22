@@ -15,7 +15,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late final TabController _tabController;
   final MockService _service = MockService();
   bool _useMock = true;
@@ -29,13 +30,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     if (_autoSyncEnabled) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _autoSync());
     }
-    ApiHelper.readApiKey().then((key) {
-      if (!mounted) return;
-      setState(() {
-        _apiKey = key.isNotEmpty ? key : null;
-        _useMock = _apiKey == null;
-      });
-    }).catchError((_) {});
+    ApiHelper.readApiKey()
+        .then((key) {
+          if (!mounted) return;
+          setState(() {
+            _apiKey = key.isNotEmpty ? key : null;
+            _useMock = _apiKey == null;
+          });
+        })
+        .catchError((_) {});
   }
 
   @override
@@ -55,22 +58,42 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   Future<void> _autoSync() async {
     if (!mounted) return;
     final matches = await _fetchMatches();
-    final upcoming = matches.where((m) => m.homeScore == null && m.awayScore == null).toList()
-      ..sort((a, b) => a.date.compareTo(b.date));
-    final next = upcoming.isNotEmpty ? upcoming.first : (matches.isNotEmpty ? matches.first : null);
-    final nextMatchText = next != null ? '${next.homeTeam} vs ${next.awayTeam}' : 'No upcoming match';
-    final summary = {'nextMatch': nextMatchText, 'timestamp': DateTime.now().toIso8601String()};
+    final upcoming =
+        matches
+            .where((m) => m.homeScore == null && m.awayScore == null)
+            .toList()
+          ..sort((a, b) => a.date.compareTo(b.date));
+    final next = upcoming.isNotEmpty
+        ? upcoming.first
+        : (matches.isNotEmpty ? matches.first : null);
+    final nextMatchText = next != null
+        ? '${next.homeTeam} vs ${next.awayTeam}'
+        : 'No upcoming match';
+    final summary = {
+      'nextMatch': nextMatchText,
+      'timestamp': DateTime.now().toIso8601String(),
+    };
     await WidgetSync.writeSummary(summary);
   }
 
   Future<void> _performRefresh() async {
     try {
       final matches = await _fetchMatches();
-      final upcoming = matches.where((m) => m.homeScore == null && m.awayScore == null).toList()
-        ..sort((a, b) => a.date.compareTo(b.date));
-      final next = upcoming.isNotEmpty ? upcoming.first : (matches.isNotEmpty ? matches.first : null);
-      final nextMatchText = next != null ? '${next.homeTeam} vs ${next.awayTeam}' : 'No upcoming match';
-      await WidgetSync.writeSummary({'nextMatch': nextMatchText, 'timestamp': DateTime.now().toIso8601String()});
+      final upcoming =
+          matches
+              .where((m) => m.homeScore == null && m.awayScore == null)
+              .toList()
+            ..sort((a, b) => a.date.compareTo(b.date));
+      final next = upcoming.isNotEmpty
+          ? upcoming.first
+          : (matches.isNotEmpty ? matches.first : null);
+      final nextMatchText = next != null
+          ? '${next.homeTeam} vs ${next.awayTeam}'
+          : 'No upcoming match';
+      await WidgetSync.writeSummary({
+        'nextMatch': nextMatchText,
+        'timestamp': DateTime.now().toIso8601String(),
+      });
     } catch (_) {}
   }
 
@@ -90,18 +113,36 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 if (!mounted) return;
                 final messenger = ScaffoldMessenger.of(context);
                 final matches = await _fetchMatches();
-                final upcoming = matches.where((m) => m.homeScore == null && m.awayScore == null).toList()
-                  ..sort((a, b) => a.date.compareTo(b.date));
-                final next = upcoming.isNotEmpty ? upcoming.first : (matches.isNotEmpty ? matches.first : null);
-                final nextMatchText = next != null ? '${next.homeTeam} vs ${next.awayTeam}' : 'No upcoming match';
-                final summary = {'nextMatch': nextMatchText, 'timestamp': DateTime.now().toIso8601String()};
+                final upcoming =
+                    matches
+                        .where(
+                          (m) => m.homeScore == null && m.awayScore == null,
+                        )
+                        .toList()
+                      ..sort((a, b) => a.date.compareTo(b.date));
+                final next = upcoming.isNotEmpty
+                    ? upcoming.first
+                    : (matches.isNotEmpty ? matches.first : null);
+                final nextMatchText = next != null
+                    ? '${next.homeTeam} vs ${next.awayTeam}'
+                    : 'No upcoming match';
+                final summary = {
+                  'nextMatch': nextMatchText,
+                  'timestamp': DateTime.now().toIso8601String(),
+                };
                 try {
                   await WidgetSync.writeSummary(summary);
                   if (!mounted) return;
-                  messenger.showSnackBar(const SnackBar(content: Text('Widget summary written')));
+                  messenger.showSnackBar(
+                    const SnackBar(content: Text('Widget summary written')),
+                  );
                 } catch (e) {
                   if (!mounted) return;
-                  messenger.showSnackBar(SnackBar(content: Text('Failed to write widget summary: $e')));
+                  messenger.showSnackBar(
+                    SnackBar(
+                      content: Text('Failed to write widget summary: $e'),
+                    ),
+                  );
                 }
               },
             ),
@@ -109,7 +150,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               icon: const Icon(Icons.remove_red_eye, color: Colors.white),
               tooltip: 'Widget preview',
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (_) => const WidgetPreviewPage()));
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const WidgetPreviewPage()),
+                );
               },
             ),
             IconButton(
@@ -125,12 +168,20 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       title: const Text('API Key'),
                       content: TextField(
                         controller: TextEditingController(text: input),
-                        decoration: const InputDecoration(hintText: 'Enter API key (leave blank to use mock)'),
+                        decoration: const InputDecoration(
+                          hintText: 'Enter API key (leave blank to use mock)',
+                        ),
                         onChanged: (v) => input = v,
                       ),
                       actions: [
-                        TextButton(onPressed: () => Navigator.of(ctx).pop(null), child: const Text('Cancel')),
-                        ElevatedButton(onPressed: () => Navigator.of(ctx).pop(input), child: const Text('Save')),
+                        TextButton(
+                          onPressed: () => Navigator.of(ctx).pop(null),
+                          child: const Text('Cancel'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => Navigator.of(ctx).pop(input),
+                          child: const Text('Save'),
+                        ),
                       ],
                     );
                   },
@@ -141,7 +192,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     _apiKey = key.isNotEmpty ? key : null;
                     _useMock = _apiKey == null;
                   });
-                  messenger.showSnackBar(SnackBar(content: Text(_apiKey != null ? 'API key saved' : 'API key cleared; using mock')));
+                  messenger.showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        _apiKey != null
+                            ? 'API key saved'
+                            : 'API key cleared; using mock',
+                      ),
+                    ),
+                  );
                 }
               },
             ),
@@ -161,7 +220,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   const Text('API', style: TextStyle(color: Colors.white)),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -191,11 +250,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       return const Center(child: CircularProgressIndicator());
                     }
                     final data = snapshot.data;
-                    final matches = (data is List) ? data.cast<dynamic>() : <dynamic>[];
-                    if (matches.isEmpty) return const Center(child: Text('No results'));
+                    final matches = (data is List)
+                        ? data.cast<dynamic>()
+                        : <dynamic>[];
+                    if (matches.isEmpty)
+                      return const Center(child: Text('No results'));
                     return ListView.builder(
                       itemCount: matches.length,
-                      itemBuilder: (context, index) => MatchCard(match: matches[index]),
+                      itemBuilder: (context, index) =>
+                          MatchCard(match: matches[index]),
                     );
                   },
                 ),
@@ -207,12 +270,20 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     return const Center(child: CircularProgressIndicator());
                   }
                   final data = snapshot.data;
-                  final matches = (data is List) ? data.cast<dynamic>() : <dynamic>[];
-                  final fixtures = matches.where((m) => (m.homeScore == null && m.awayScore == null)).toList();
-                  if (fixtures.isEmpty) return const Center(child: Text('No fixtures'));
+                  final matches = (data is List)
+                      ? data.cast<dynamic>()
+                      : <dynamic>[];
+                  final fixtures = matches
+                      .where(
+                        (m) => (m.homeScore == null && m.awayScore == null),
+                      )
+                      .toList();
+                  if (fixtures.isEmpty)
+                    return const Center(child: Text('No fixtures'));
                   return ListView.builder(
                     itemCount: fixtures.length,
-                    itemBuilder: (context, index) => MatchCard(match: fixtures[index]),
+                    itemBuilder: (context, index) =>
+                        MatchCard(match: fixtures[index]),
                   );
                 },
               ),
@@ -223,11 +294,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     return const Center(child: CircularProgressIndicator());
                   }
                   final data = snapshot.data;
-                  final scorers = (data is List) ? data.cast<dynamic>() : <dynamic>[];
-                  if (scorers.isEmpty) return const Center(child: Text('No scorers'));
+                  final scorers = (data is List)
+                      ? data.cast<dynamic>()
+                      : <dynamic>[];
+                  if (scorers.isEmpty)
+                    return const Center(child: Text('No scorers'));
                   return ListView.builder(
                     itemCount: scorers.length,
-                    itemBuilder: (context, index) => ScorerCard(player: scorers[index]),
+                    itemBuilder: (context, index) =>
+                        ScorerCard(player: scorers[index]),
                   );
                 },
               ),
@@ -238,4 +313,3 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 }
-
