@@ -59,7 +59,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.12),
+                        color: Colors.white.withAlpha((0.12 * 255).round()),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Icon(
