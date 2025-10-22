@@ -4,11 +4,12 @@ import 'package:mixzer_app/services/api_helper.dart';
 import 'package:mixzer_app/services/data_repository.dart';
 import 'package:mixzer_app/widgets/match_card.dart';
 import 'package:mixzer_app/widgets/scorer_card.dart';
+import 'package:mixzer_app/widgets/app_header.dart';
 import 'package:mixzer_app/services/widget_sync.dart';
 import 'package:mixzer_app/pages/widget_preview.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -25,11 +26,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    // Auto-sync at startup if enabled
     if (_autoSyncEnabled) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _autoSync());
     }
-    // load stored API key
     ApiHelper.readApiKey().then((key) {
       if (!mounted) return;
       setState(() {
@@ -45,8 +44,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     super.dispose();
   }
 
-  Future<List> _fetchMatches() async {
-    // Use DataRepository which decides between ApiService and MockService
+  Future<List<dynamic>> _fetchMatches() async {
     try {
       return await DataRepository.fetchMatches(useCache: true);
     } catch (e) {
@@ -57,79 +55,71 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   Future<void> _autoSync() async {
     if (!mounted) return;
     final matches = await _fetchMatches();
-    final upcoming = matches.where((m) => m.homeScore == null && m.awayScore == null).toList()..sort((a,b) => a.date.compareTo(b.date));
+    final upcoming = matches.where((m) => m.homeScore == null && m.awayScore == null).toList()
+      ..sort((a, b) => a.date.compareTo(b.date));
     final next = upcoming.isNotEmpty ? upcoming.first : (matches.isNotEmpty ? matches.first : null);
     final nextMatchText = next != null ? '${next.homeTeam} vs ${next.awayTeam}' : 'No upcoming match';
-    final summary = {
-      'nextMatch': nextMatchText,
-      'timestamp': DateTime.now().toIso8601String(),
-    };
+    final summary = {'nextMatch': nextMatchText, 'timestamp': DateTime.now().toIso8601String()};
     await WidgetSync.writeSummary(summary);
   }
 
   Future<void> _performRefresh() async {
     try {
       final matches = await _fetchMatches();
-      final upcoming = matches.where((m) => m.homeScore == null && m.awayScore == null).toList()..sort((a,b) => a.date.compareTo(b.date));
+      final upcoming = matches.where((m) => m.homeScore == null && m.awayScore == null).toList()
+        ..sort((a, b) => a.date.compareTo(b.date));
       final next = upcoming.isNotEmpty ? upcoming.first : (matches.isNotEmpty ? matches.first : null);
       final nextMatchText = next != null ? '${next.homeTeam} vs ${next.awayTeam}' : 'No upcoming match';
       await WidgetSync.writeSummary({'nextMatch': nextMatchText, 'timestamp': DateTime.now().toIso8601String()});
-    } catch (e) {
-      // swallow; RefreshIndicator will show if needed via UI
-    }
+    } catch (_) {}
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mixzer'),
-        elevation: 2,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.sync),
-            tooltip: 'Sync widget',
-            onPressed: () async {
-              // Ensure context is captured before any await to avoid using BuildContext across async gaps
-              if (!mounted) return;
-              final messenger = ScaffoldMessenger.of(context);
-              final primaryColor = Theme.of(context).colorScheme.primary;
-
-              // Build summary from next upcoming match
-              final matches = await _fetchMatches();
-              final upcoming = matches.where((m) => m.homeScore == null && m.awayScore == null).toList()..sort((a,b) => a.date.compareTo(b.date));
-              final next = upcoming.isNotEmpty ? upcoming.first : (matches.isNotEmpty ? matches.first : null);
-              final nextMatchText = next != null ? '${next.homeTeam} vs ${next.awayTeam}' : 'No upcoming match';
-              final summary = {
-                'nextMatch': nextMatchText,
-                'timestamp': DateTime.now().toIso8601String(),
-              };
-
-              try {
-                await WidgetSync.writeSummary(summary);
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight + 48),
+        child: AppHeader(
+          title: 'Mixzer',
+          tabController: _tabController,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.sync, color: Colors.white),
+              tooltip: 'Sync widget',
+              onPressed: () async {
                 if (!mounted) return;
-                messenger.showSnackBar(SnackBar(content: const Text('Widget summary written'), backgroundColor: primaryColor));
-              } catch (e) {
-                if (!mounted) return;
-                messenger.showSnackBar(SnackBar(content: Text('Failed to write widget summary: $e'), backgroundColor: Colors.red.shade700));
-              }
-            },
-          ),
-                IconButton(
-                  icon: const Icon(Icons.remove_red_eye),
-                  tooltip: 'Widget preview',
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const WidgetPreviewPage()));
-                  },
-                ),
-              IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () async {
-                  // show API key dialog
+                final messenger = ScaffoldMessenger.of(context);
+                final matches = await _fetchMatches();
+                final upcoming = matches.where((m) => m.homeScore == null && m.awayScore == null).toList()
+                  ..sort((a, b) => a.date.compareTo(b.date));
+                final next = upcoming.isNotEmpty ? upcoming.first : (matches.isNotEmpty ? matches.first : null);
+                final nextMatchText = next != null ? '${next.homeTeam} vs ${next.awayTeam}' : 'No upcoming match';
+                final summary = {'nextMatch': nextMatchText, 'timestamp': DateTime.now().toIso8601String()};
+                try {
+                  await WidgetSync.writeSummary(summary);
                   if (!mounted) return;
-                  final messenger = ScaffoldMessenger.of(context);
-                  final key = await showDialog<String?>(context: context, builder: (ctx) {
+                  messenger.showSnackBar(const SnackBar(content: Text('Widget summary written')));
+                } catch (e) {
+                  if (!mounted) return;
+                  messenger.showSnackBar(SnackBar(content: Text('Failed to write widget summary: $e')));
+                }
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.remove_red_eye, color: Colors.white),
+              tooltip: 'Widget preview',
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => const WidgetPreviewPage()));
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.settings, color: Colors.white),
+              onPressed: () async {
+                if (!mounted) return;
+                final messenger = ScaffoldMessenger.of(context);
+                final key = await showDialog<String?>(
+                  context: context,
+                  builder: (ctx) {
                     String input = _apiKey ?? '';
                     return AlertDialog(
                       title: const Text('API Key'),
@@ -143,44 +133,40 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         ElevatedButton(onPressed: () => Navigator.of(ctx).pop(input), child: const Text('Save')),
                       ],
                     );
-                  });
-                  if (key != null) {
-                    // persist API key
-                    await ApiHelper.saveApiKey(key);
-                    setState(() {
-                      _apiKey = key.isNotEmpty ? key : null;
-                      _useMock = _apiKey == null;
-                    });
-                    messenger.showSnackBar(SnackBar(content: Text(_apiKey != null ? 'API key saved' : 'API key cleared; using mock')));
-                  }
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              children: [
-                const Text('Mock'),
-                Switch(
-                  value: _useMock,
-                  onChanged: (v) {
-                    setState(() {
-                      _useMock = v;
-                    });
                   },
-                ),
-                const Text('API'),
-              ],
+                );
+                if (key != null) {
+                  await ApiHelper.saveApiKey(key);
+                  setState(() {
+                    _apiKey = key.isNotEmpty ? key : null;
+                    _useMock = _apiKey == null;
+                  });
+                  messenger.showSnackBar(SnackBar(content: Text(_apiKey != null ? 'API key saved' : 'API key cleared; using mock')));
+                }
+              },
             ),
-          )
-        ],
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [Tab(text: 'Results'), Tab(text: 'Fixtures'), Tab(text: 'Scorers')],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                children: [
+                  const Text('Mock', style: TextStyle(color: Colors.white)),
+                  Switch(
+                    value: _useMock,
+                    onChanged: (v) {
+                      setState(() {
+                        _useMock = v;
+                      });
+                    },
+                  ),
+                  const Text('API', style: TextStyle(color: Colors.white)),
+                ],
+              ),
+            )
+          ],
         ),
       ),
       body: Stack(
         children: [
-          // animated ambient background
           Positioned.fill(
             child: AnimatedContainer(
               duration: const Duration(seconds: 6),
@@ -196,60 +182,55 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           TabBarView(
             controller: _tabController,
             children: [
-          // Results
-          RefreshIndicator(
-            onRefresh: _performRefresh,
-            child: FutureBuilder(
+              RefreshIndicator(
+                onRefresh: _performRefresh,
+                child: FutureBuilder<List<dynamic>>(
+                  future: DataRepository.fetchMatches(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    final data = snapshot.data;
+                    final matches = (data is List) ? data.cast<dynamic>() : <dynamic>[];
+                    if (matches.isEmpty) return const Center(child: Text('No results'));
+                    return ListView.builder(
+                      itemCount: matches.length,
+                      itemBuilder: (context, index) => MatchCard(match: matches[index]),
+                    );
+                  },
+                ),
+              ),
+              FutureBuilder<List<dynamic>>(
                 future: DataRepository.fetchMatches(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                final data = snapshot.data;
-                final matches = (data as List?)?.cast() ?? <dynamic>[];
-                if (matches.isEmpty) return const Center(child: Text('No results'));
-                return ListView.builder(
-                  itemCount: matches.length,
-                  itemBuilder: (context, index) => MatchCard(match: matches[index]),
-                );
-              },
-            ),
-          ),
-
-          // Fixtures
-          FutureBuilder(
-            future: DataRepository.fetchMatches(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState != ConnectionState.done) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              final data = snapshot.data;
-              final matches = (data as List?)?.cast() ?? <dynamic>[];
-              final fixtures = matches.where((m) => (m.homeScore == null && m.awayScore == null)).toList();
-              if (fixtures.isEmpty) return const Center(child: Text('No fixtures'));
-              return ListView.builder(
-                itemCount: fixtures.length,
-                itemBuilder: (context, index) => MatchCard(match: fixtures[index]),
-              );
-            },
-          ),
-
-          // Scorers
-          FutureBuilder(
-            future: DataRepository.fetchTopScorers(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState != ConnectionState.done) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              final data = snapshot.data;
-              final scorers = (data as List?)?.cast() ?? <dynamic>[];
-              if (scorers.isEmpty) return const Center(child: Text('No scorers'));
-              return ListView.builder(
-                itemCount: scorers.length,
-                itemBuilder: (context, index) => ScorerCard(player: scorers[index]),
-              );
-            },
-          ),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  final data = snapshot.data;
+                  final matches = (data is List) ? data.cast<dynamic>() : <dynamic>[];
+                  final fixtures = matches.where((m) => (m.homeScore == null && m.awayScore == null)).toList();
+                  if (fixtures.isEmpty) return const Center(child: Text('No fixtures'));
+                  return ListView.builder(
+                    itemCount: fixtures.length,
+                    itemBuilder: (context, index) => MatchCard(match: fixtures[index]),
+                  );
+                },
+              ),
+              FutureBuilder<List<dynamic>>(
+                future: DataRepository.fetchTopScorers(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  final data = snapshot.data;
+                  final scorers = (data is List) ? data.cast<dynamic>() : <dynamic>[];
+                  if (scorers.isEmpty) return const Center(child: Text('No scorers'));
+                  return ListView.builder(
+                    itemCount: scorers.length,
+                    itemBuilder: (context, index) => ScorerCard(player: scorers[index]),
+                  );
+                },
+              ),
             ],
           ),
         ],
@@ -257,3 +238,4 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 }
+
