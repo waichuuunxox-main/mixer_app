@@ -31,17 +31,17 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Theme.of(context).colorScheme.primary.withOpacity(0.95),
+                    Theme.of(context).colorScheme.primary.withAlpha((0.95 * 255).round()),
                     Theme.of(
                       context,
-                    ).colorScheme.primaryContainer.withOpacity(0.85),
+                    ).colorScheme.primaryContainer.withAlpha((0.85 * 255).round()),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.12),
+                    color: Colors.black.withAlpha((0.12 * 255).round()),
                     blurRadius: 14,
                     offset: const Offset(0, 6),
                   ),
@@ -94,16 +94,16 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                 Tab(text: 'Fixtures'),
                 Tab(text: 'Scorers'),
               ],
-              indicator: BoxDecoration(
+                indicator: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 color: Theme.of(
                   context,
-                ).colorScheme.secondary.withOpacity(0.18),
+                ).colorScheme.secondary.withAlpha((0.18 * 255).round()),
               ),
               labelColor: Theme.of(context).colorScheme.onSecondary,
               unselectedLabelColor: Theme.of(
                 context,
-              ).colorScheme.onSurface.withOpacity(0.7),
+              ).colorScheme.onSurface.withAlpha((0.7 * 255).round()),
             ),
           ),
       ],

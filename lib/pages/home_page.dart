@@ -9,7 +9,7 @@ import 'package:mixzer_app/services/widget_sync.dart';
 import 'package:mixzer_app/pages/widget_preview.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -253,8 +253,9 @@ class _HomePageState extends State<HomePage>
                     final matches = (data is List)
                         ? data.cast<dynamic>()
                         : <dynamic>[];
-                    if (matches.isEmpty)
+                    if (matches.isEmpty) {
                       return const Center(child: Text('No results'));
+                    }
                     return ListView.builder(
                       itemCount: matches.length,
                       itemBuilder: (context, index) =>
@@ -278,8 +279,9 @@ class _HomePageState extends State<HomePage>
                         (m) => (m.homeScore == null && m.awayScore == null),
                       )
                       .toList();
-                  if (fixtures.isEmpty)
+                  if (fixtures.isEmpty) {
                     return const Center(child: Text('No fixtures'));
+                  }
                   return ListView.builder(
                     itemCount: fixtures.length,
                     itemBuilder: (context, index) =>
@@ -297,8 +299,9 @@ class _HomePageState extends State<HomePage>
                   final scorers = (data is List)
                       ? data.cast<dynamic>()
                       : <dynamic>[];
-                  if (scorers.isEmpty)
+                  if (scorers.isEmpty) {
                     return const Center(child: Text('No scorers'));
+                  }
                   return ListView.builder(
                     itemCount: scorers.length,
                     itemBuilder: (context, index) =>

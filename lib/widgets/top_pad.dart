@@ -25,13 +25,13 @@ class TopPad extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Theme.of(context).colorScheme.primary.withOpacity(0.18),
-                  Theme.of(context).scaffoldBackgroundColor.withOpacity(0.0),
+                  Theme.of(context).colorScheme.primary.withAlpha((0.18 * 255).round()),
+                  Theme.of(context).scaffoldBackgroundColor.withAlpha((0.0 * 255).round()),
                 ],
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.06),
+                  color: Colors.black.withAlpha((0.06 * 255).round()),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
