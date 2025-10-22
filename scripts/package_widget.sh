@@ -10,7 +10,7 @@ rm -f "$OUT_ZIP"
 
 echo "Creating $OUT_ZIP from $SRC_DIR"
 cd "$SRC_DIR"
-zip -r -q "$(pwd)/../../$OUT_ZIP" .
+zip -r "$(pwd)/../../$OUT_ZIP" .
 cd - >/dev/null
 
 echo "Created $OUT_ZIP"
