@@ -94,6 +94,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               // Ensure context is captured before any await to avoid using BuildContext across async gaps
               if (!mounted) return;
               final messenger = ScaffoldMessenger.of(context);
+              final primaryColor = Theme.of(context).colorScheme.primary;
 
               // Build summary from next upcoming match
               final matches = await _fetchMatches();
@@ -107,8 +108,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
               try {
                 await WidgetSync.writeSummary(summary);
-                messenger.showSnackBar(SnackBar(content: const Text('Widget summary written'), backgroundColor: Theme.of(context).colorScheme.primary));
+                if (!mounted) return;
+                messenger.showSnackBar(SnackBar(content: const Text('Widget summary written'), backgroundColor: primaryColor));
               } catch (e) {
+                if (!mounted) return;
                 messenger.showSnackBar(SnackBar(content: Text('Failed to write widget summary: $e'), backgroundColor: Colors.red.shade700));
               }
             },
@@ -175,9 +178,24 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           tabs: const [Tab(text: 'Results'), Tab(text: 'Fixtures'), Tab(text: 'Scorers')],
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
+      body: Stack(
         children: [
+          // animated ambient background
+          Positioned.fill(
+            child: AnimatedContainer(
+              duration: const Duration(seconds: 6),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFFF6F7F9), Color(0xFFEFF9FB)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+            ),
+          ),
+          TabBarView(
+            controller: _tabController,
+            children: [
           // Results
           RefreshIndicator(
             onRefresh: _performRefresh,
@@ -231,6 +249,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 itemBuilder: (context, index) => ScorerCard(player: scorers[index]),
               );
             },
+          ),
+            ],
           ),
         ],
       ),

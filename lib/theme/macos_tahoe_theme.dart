@@ -75,12 +75,58 @@ class MacosTahoeTheme {
       textTheme: base.textTheme.apply(
         bodyColor: mutedText,
         displayColor: mutedText,
+      ).copyWith(
+        displayLarge: base.textTheme.displayLarge?.copyWith(fontSize: 40, fontWeight: FontWeight.w900),
+        headlineLarge: base.textTheme.headlineLarge?.copyWith(fontSize: 26, fontWeight: FontWeight.w800),
+        headlineMedium: base.textTheme.headlineMedium?.copyWith(fontSize: 20, fontWeight: FontWeight.w700),
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
       ),
       // small, soft shadows for macOS-like feel
       shadowColor: Colors.black.withAlpha(16), // adjusted shadow color
+      // glamorous gradient tokens
+      extensions: <ThemeExtension<dynamic>>[
+        GlamTokens(
+          gradientStart: Color(0xFF0FB1D2), // brighter cyan
+          gradientEnd: Color(0xFF8BE8FF), // icy highlight
+          glowColor: Color(0xFF8BE8FF),
+          glowIntensity: 0.18,
+        ),
+      ],
+    );
+  }
+
+  static GlamTokens glamTokensOf(BuildContext context) {
+    final ext = Theme.of(context).extension<GlamTokens>();
+    return ext ?? const GlamTokens(gradientStart: primary, gradientEnd: accent);
+  }
+}
+
+class GlamTokens extends ThemeExtension<GlamTokens> {
+  final Color gradientStart;
+  final Color gradientEnd;
+  final Color glowColor;
+  final double glowIntensity;
+
+  const GlamTokens({required this.gradientStart, required this.gradientEnd, this.glowColor = const Color(0xFF8BE8FF), this.glowIntensity = 0.08});
+
+  @override
+  GlamTokens copyWith({Color? gradientStart, Color? gradientEnd, Color? glowColor, double? glowIntensity}) => GlamTokens(
+        gradientStart: gradientStart ?? this.gradientStart,
+        gradientEnd: gradientEnd ?? this.gradientEnd,
+        glowColor: glowColor ?? this.glowColor,
+        glowIntensity: glowIntensity ?? this.glowIntensity,
+      );
+
+  @override
+  GlamTokens lerp(ThemeExtension<GlamTokens>? other, double t) {
+    if (other is! GlamTokens) return this;
+    return GlamTokens(
+      gradientStart: Color.lerp(gradientStart, other.gradientStart, t)!,
+      gradientEnd: Color.lerp(gradientEnd, other.gradientEnd, t)!,
+  glowColor: Color.lerp(glowColor, other.glowColor, t)!,
+  glowIntensity: (glowIntensity + (other.glowIntensity - glowIntensity) * t),
     );
   }
 }
